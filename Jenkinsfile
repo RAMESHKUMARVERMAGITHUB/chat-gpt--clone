@@ -15,12 +15,12 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git branch: 'master', url: 'https://github.com/rameshkumarvermagithub/chat-gpt-clone.git'
+                git branch: 'master', url: 'https://github.com/RAMESHKUMARVERMAGITHUB/chat-gpt--clone.git'
             }
         }
         stage("Sonarqube Analysis") {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
+                withSonarQubeEnv('sonar-server') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Chat-gpt-Clone-CICD \
                     -Dsonar.projectKey=Chat-gpt-Clone-CICD'''
                 }
@@ -46,7 +46,7 @@ pipeline {
         stage("Docker Build & Push"){
              steps{
                  script{
-                   withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){   
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
                       sh "docker build -t chat-gpt-clone ."
                       sh "docker tag chat-gpt-clone rameshkumarverma/chat-gpt-clone:latest "
                       sh "docker push rameshkumarverma/chat-gpt-clone:latest "
@@ -85,4 +85,3 @@ pipeline {
     //     }
     // }
 }
-
